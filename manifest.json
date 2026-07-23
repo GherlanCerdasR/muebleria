@@ -1,0 +1,17 @@
+{
+  "name": "Mueblería",
+  "short_name": "Mueblería",
+  "description": "Inventario, compras y ventas de la mueblería",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F7F3EA",
+  "theme_color": "#6B7145",
+  "lang": "es-CR",
+  "icons": [
+    { "src": "./img/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./img/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./img/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

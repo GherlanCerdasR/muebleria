@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mueblería</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#6B7145">
+  <link rel="apple-touch-icon" href="./img/icon-192.png">
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-fondo" data-tab="inventario"></div>
+    <div class="header-contenido">
+      <h1 id="titulo-tab">Inventario</h1>
+      <button id="btn-ajustes" class="btn-ajustes" aria-label="Ajustes"></button>
+    </div>
+  </header>
+
+  <main class="contenido">
+
+    <!-- TAB: Inventario -->
+    <section id="tab-inventario" class="tab activa">
+      <div class="buscador" id="buscador-inventario">
+        <input type="search" id="q-inventario" autocomplete="off"
+               placeholder="Buscar por modelo, material o color...">
+      </div>
+      <div id="lista-inventario" class="lista"></div>
+    </section>
+
+    <!-- TAB: Compras -->
+    <section id="tab-compras" class="tab">
+      <button id="btn-nueva-compra" class="btn-agregar">+ Registrar compra</button>
+      <div id="aviso-compra" class="aviso oculto"></div>
+
+      <form id="form-compra" class="form oculto">
+        <input type="text" id="co-modelo" placeholder="Modelo (ej: Americano Bala)" required>
+        <select id="co-material" required>
+          <option value="">Material...</option>
+          <option value="Micro">Micro</option>
+          <option value="Lino">Lino</option>
+          <option value="Vinil">Vinil</option>
+          <option value="Accesorio">Accesorio (almohadas, etc.)</option>
+        </select>
+        <input type="text" id="co-color" placeholder="Color (opcional)">
+        <input type="number" id="co-cantidad" placeholder="Cantidad" min="1" required>
+        <input type="number" id="co-precio" placeholder="Precio de compra (por unidad)" min="0" required>
+        <input type="number" id="co-venta" placeholder="Precio de venta (opcional)" min="0">
+        <input type="date" id="co-fecha" required>
+        <div class="form-botones">
+          <button type="button" id="btn-cancelar-compra" class="btn-secundario">Cancelar</button>
+          <button type="submit" class="btn-primario">Registrar</button>
+        </div>
+      </form>
+
+      <div class="buscador" id="buscador-compras">
+        <input type="search" id="q-compras" autocomplete="off"
+               placeholder="Buscar por modelo, material o color...">
+      </div>
+      <div id="lista-compras" class="lista"></div>
+    </section>
+
+    <!-- TAB: Ventas -->
+    <section id="tab-ventas" class="tab">
+      <button id="btn-nueva-venta" class="btn-agregar">+ Registrar venta</button>
+      <div id="aviso-venta" class="aviso oculto"></div>
+
+      <form id="form-venta" class="form oculto">
+        <select id="ve-item" required>
+          <option value="">Elegí qué se vendió...</option>
+        </select>
+        <div id="ve-hint" class="nota oculto"></div>
+        <input type="text" id="ve-descripcion" class="oculto" placeholder="Descripción (ej: Almohadas)">
+        <input type="number" id="ve-cantidad" placeholder="Cantidad" min="1" value="1" required>
+        <input type="number" id="ve-precio" placeholder="Precio de venta (por unidad)" min="0" required>
+        <input type="number" id="ve-flete" placeholder="Flete (opcional)" min="0">
+        <input type="number" id="ve-diesel" placeholder="Diesel (opcional)" min="0">
+        <input type="date" id="ve-fecha" required>
+        <div class="form-botones">
+          <button type="button" id="btn-cancelar-venta" class="btn-secundario">Cancelar</button>
+          <button type="submit" class="btn-primario">Registrar</button>
+        </div>
+      </form>
+
+      <div class="buscador" id="buscador-ventas">
+        <input type="search" id="q-ventas" autocomplete="off"
+               placeholder="Buscar por modelo, material o color...">
+      </div>
+      <div id="lista-ventas" class="lista"></div>
+    </section>
+
+    <!-- TAB: Resumen -->
+    <section id="tab-resumen" class="tab">
+      <div class="selector-periodo">
+        <label for="re-periodo">Período</label>
+        <select id="re-periodo">
+          <option value="mes">Este mes</option>
+          <option value="mes-pasado">Mes pasado</option>
+          <option value="anio">Este año</option>
+          <option value="todo">Todo</option>
+        </select>
+      </div>
+      <div id="contenido-resumen"></div>
+    </section>
+
+  </main>
+
+  <nav class="nav">
+    <button class="nav-btn activa" data-tab="inventario"><span class="nav-icono"></span><span>Inventario</span></button>
+    <button class="nav-btn" data-tab="compras"><span class="nav-icono"></span><span>Compras</span></button>
+    <button class="nav-btn" data-tab="ventas"><span class="nav-icono"></span><span>Ventas</span></button>
+    <button class="nav-btn" data-tab="resumen"><span class="nav-icono"></span><span>Resumen</span></button>
+  </nav>
+
+  <!-- Modal de Ajustes -->
+  <div id="modal-ajustes" class="modal-fondo oculto">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Ajustes</h2>
+        <button id="btn-cerrar-ajustes" class="btn-cerrar" aria-label="Cerrar">✕</button>
+      </div>
+
+      <div class="modal-cuerpo">
+        <button id="btn-cargar-mueble" class="btn-agregar">+ Cargar mueble al inventario</button>
+        <p class="nota">Para cargar los muebles que ya tenés o corregir a mano. No registra una compra.</p>
+
+        <form id="form-mueble" class="form oculto">
+          <div class="form-titulo" id="titulo-form-mueble">Cargar mueble</div>
+          <input type="text" id="in-modelo" placeholder="Modelo (ej: Diván Bala)" required>
+          <select id="in-material" required>
+            <option value="">Material...</option>
+            <option value="Micro">Micro</option>
+            <option value="Lino">Lino</option>
+            <option value="Vinil">Vinil</option>
+            <option value="Accesorio">Accesorio (almohadas, etc.)</option>
+          </select>
+          <input type="text" id="in-color" placeholder="Color (opcional)">
+          <input type="number" id="in-cantidad" placeholder="Cantidad" min="0" required>
+          <input type="number" id="in-compra" placeholder="Precio de compra" min="0">
+          <input type="number" id="in-venta" placeholder="Precio de venta" min="0">
+          <div class="form-botones">
+            <button type="button" id="btn-cancelar" class="btn-secundario">Cancelar</button>
+            <button type="submit" class="btn-primario">Guardar</button>
+          </div>
+        </form>
+
+        <div class="separador"></div>
+
+        <div class="form-titulo">Saldo del banco</div>
+        <p class="nota">Poné lo que dice el banco hoy y la fecha. El app le va a sumar las ventas y restar las compras de ahí en adelante.</p>
+        <form id="form-saldo" class="form">
+          <input type="number" id="sa-monto" placeholder="Saldo en el banco" step="0.01" required>
+          <input type="date" id="sa-fecha" required>
+          <button type="submit" class="btn-primario">Guardar saldo</button>
+        </form>
+
+        <div class="separador"></div>
+
+        <div class="form-titulo">Respaldo</div>
+        <p class="nota">Exportá seguido y guardá el archivo en Drive. Si cambiás de teléfono o reinstalás el app, lo importás y recuperás todo.</p>
+        <button id="btn-exportar" class="btn-agregar">⬆ Exportar respaldo</button>
+        <button id="btn-importar" class="btn-secundario btn-ancho">⬇ Importar respaldo</button>
+        <input type="file" id="input-importar" accept=".csv,text/csv" class="oculto">
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js")
+          .then(() => console.log("Service worker registrado"))
+          .catch(err => console.log("Error registrando el SW:", err));
+      });
+    }
+  </script>
+</body>
+</html>

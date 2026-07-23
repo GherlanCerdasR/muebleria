@@ -1035,6 +1035,57 @@ document.getElementById("q-inventario").addEventListener("input", renderInventar
 document.getElementById("q-compras").addEventListener("input", renderCompras);
 document.getElementById("q-ventas").addEventListener("input", renderVentas);
 
+/* ====== Borrar todos los datos ====== */
+async function borrarTodo() {
+  const inv = db.leer(CLAVES.inventario).length;
+  const com = db.leer(CLAVES.compras).length;
+  const ven = db.leer(CLAVES.ventas).length;
+
+  if (inv + com + ven === 0) {
+    alert("No hay datos que borrar.");
+    return;
+  }
+
+  // 1) Mostrar exactamente qué se va a perder
+  const resumen =
+    `Vas a borrar TODO:\n\n` +
+    `• ${inv} artículo(s) del inventario\n` +
+    `• ${com} compra(s)\n` +
+    `• ${ven} venta(s)\n` +
+    `• El saldo del banco\n\n` +
+    `Esto NO se puede deshacer.\n\n¿Continuar?`;
+  if (!confirm(resumen)) return;
+
+  // 2) Ofrecer respaldo antes
+  if (confirm("¿Querés exportar un respaldo antes de borrar?")) {
+    await exportarRespaldo();
+    if (!confirm("¿Ya guardaste el respaldo? Si aceptás, seguimos con el borrado.")) return;
+  }
+
+  // 3) Confirmación escrita
+  const escrito = prompt('Para confirmar, escribí BORRAR en mayúsculas:');
+  if (escrito !== "BORRAR") {
+    alert("Cancelado. No se borró nada.");
+    return;
+  }
+
+  db.guardar(CLAVES.inventario, []);
+  db.guardar(CLAVES.compras, []);
+  db.guardar(CLAVES.ventas, []);
+  db.guardar(CLAVES.saldo, SALDO_DEFAULT);
+
+  // Limpiar también los buscadores, para no quedar filtrando sobre nada
+  document.getElementById("q-inventario").value = "";
+  document.getElementById("q-compras").value = "";
+  document.getElementById("q-ventas").value = "";
+
+  refrescar();
+  cerrarAjustes();
+  alert("✓ Listo. Todos los datos fueron borrados.");
+}
+
+document.getElementById("btn-borrar-todo").addEventListener("click", borrarTodo);
+
 /* ====== Inicio ====== */
 pintarIconosFijos();
 refrescar();

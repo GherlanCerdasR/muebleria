@@ -1,6 +1,6 @@
 /* Subí este número cada vez que cambiés el código.
    Si no, el teléfono sigue mostrando la versión vieja. */
-const VERSION = "v1";
+const VERSION = "v2";
 const CACHE = `muebleria-${VERSION}`;
 
 /* Sin estos el app no funciona */

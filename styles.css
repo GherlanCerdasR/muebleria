@@ -467,3 +467,18 @@ body {
 .nav-icono svg { width: 19px; height: 19px; }
 .nav-btn.activa { color: var(--acento); }
 .nav-btn.activa .nav-icono { background: var(--acento-suave); }
+
+/* ====== Zona de peligro ====== */
+.form-titulo.peligro { color: var(--peligro); }
+.btn-peligro {
+  width: 100%;
+  padding: 14px;
+  background: none;
+  color: var(--peligro);
+  border: 1.5px solid var(--peligro);
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.btn-peligro:active { background: rgba(176, 74, 58, 0.08); }
